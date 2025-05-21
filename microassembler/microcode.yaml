@@ -1,0 +1,119 @@
+- description: Fetch opcode byte, increment PC, goto opcode
+  address: '0x0'
+  bBus: pc
+  writeTo: [pc, mar, mbr]
+  operation: bPlus1
+  memoryAction: read
+  next: mbr
+  jz: false
+
+- description: NOP
+  address: '0x1'
+  bBus: a
+  writeTo: []
+  operation: a
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: INPUT (Load Input into A register)
+  address: '0x2'
+  bBus: input
+  writeTo: [a]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: OUTPUT (Move A register to Output register)
+  address: '0x3'
+  bBus: a
+  writeTo: [out]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: 1 | JMP <addr> (JMP to address <addr> in program memory)
+  address: '0x4'
+  bBus: pc
+  writeTo: [pc, mar, mbr]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x5'
+  jz: false
+
+- description: 2 | JMP <addr>
+  address: '0x5'
+  bBus: mbr
+  writeTo: [pc, mar]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: 1 | LOAD A, \#<value> (Load <value> into the A register)
+  address: '0x6'
+  bBus: pc
+  writeTo: [pc, mar, mbr]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x7'
+  jz: false
+
+- description: 2 | LOAD A, \#<value>
+  address: '0x7'
+  bBus: mbr
+  writeTo: [a]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: INC A (Increment the value in register A by 1)
+  address: '0x8'
+  bBus: a
+  writeTo: [a]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: MOV B, A (Move register A int register B)
+  address: '0x9'
+  bBus: a
+  writeTo: [b]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: 1 | ADD A, B (Add register A to register B and store result in register A)
+  address: '0xA'
+  bBus: a
+  writeTo: [buf]
+  operation: b
+  memoryAction: read
+  next: '0xB'
+  jz: false
+
+- description: 2 | ADD A, B
+  address: '0xB'
+  bBus: b
+  writeTo: [a]
+  operation: aPlusB
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: HALT (Halt execution)
+  address: '0xC'
+  bBus: a
+  writeTo: []
+  operation: a
+  memoryAction: read
+  next: '0xC'
+  jz: false
+
+
+

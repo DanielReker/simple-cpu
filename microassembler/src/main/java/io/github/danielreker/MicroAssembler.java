@@ -121,8 +121,14 @@ public class MicroAssembler {
         int microcodeWord = 0;
 
         // Bits 0-7: writeTo
+        boolean writeToMbr = false;
         if (yamlInstr.writeTo != null) {
             for (String reg : yamlInstr.writeTo) {
+                if ("MBR".equalsIgnoreCase(reg)) {
+                    writeToMbr = true;
+                    continue;
+                }
+
                 Integer bitPos = WRITE_ENABLE_BITS.get(reg.toUpperCase());
                 if (bitPos != null) {
                     microcodeWord |= (1 << bitPos);
@@ -133,12 +139,16 @@ public class MicroAssembler {
         }
 
         // Bit 8: memoryAction
-        if ("read".equalsIgnoreCase(yamlInstr.memoryAction)) {
-
-        } else if ("write".equalsIgnoreCase(yamlInstr.memoryAction)) {
+        if (!writeToMbr && "none".equalsIgnoreCase(yamlInstr.memoryAction)) {
+            // Do nothing
+        } else if (!writeToMbr && "read".equalsIgnoreCase(yamlInstr.memoryAction)) {
+            microcodeWord |= (1 << WRITE_ENABLE_BITS.get("MBR"));
+        } else if (!writeToMbr && "write".equalsIgnoreCase(yamlInstr.memoryAction)) {
             microcodeWord |= (1 << 8);
-        } else if (yamlInstr.memoryAction != null && !yamlInstr.memoryAction.isEmpty()){
-            System.err.println("Warning: Unknown memoryAction: " + yamlInstr.memoryAction + " for instruction at " + yamlInstr.address);
+        } else if (writeToMbr && "none".equalsIgnoreCase(yamlInstr.memoryAction)) {
+            microcodeWord |= (1 << 8) | (1 << WRITE_ENABLE_BITS.get("MBR"));
+        } else {
+            System.err.println("Warning: Incorrect combination on write: [...mbr?...] and memoryAction");
         }
 
 

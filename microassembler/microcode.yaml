@@ -1,7 +1,7 @@
 - description: Fetch opcode byte, increment PC, goto opcode
   address: '0x0'
   bBus: pc
-  writeTo: [pc, mar, mbr]
+  writeTo: [pc, mar]
   operation: bPlus1
   memoryAction: read
   next: mbr
@@ -12,7 +12,7 @@
   bBus: a
   writeTo: []
   operation: a
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -21,7 +21,7 @@
   bBus: input
   writeTo: [a]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -30,14 +30,14 @@
   bBus: a
   writeTo: [out]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
 - description: 1 | JMP <addr> (JMP to address <addr> in program memory)
   address: '0x4'
   bBus: pc
-  writeTo: [pc, mar, mbr]
+  writeTo: [pc, mar]
   operation: bPlus1
   memoryAction: read
   next: '0x5'
@@ -48,14 +48,14 @@
   bBus: mbr
   writeTo: [pc, mar]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
 - description: 1 | LOAD A, \#<value> (Load <value> into the A register)
   address: '0x6'
   bBus: pc
-  writeTo: [pc, mar, mbr]
+  writeTo: [pc, mar]
   operation: bPlus1
   memoryAction: read
   next: '0x7'
@@ -66,7 +66,7 @@
   bBus: mbr
   writeTo: [a]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -75,7 +75,7 @@
   bBus: a
   writeTo: [a]
   operation: bPlus1
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -84,7 +84,7 @@
   bBus: a
   writeTo: [b]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -93,7 +93,7 @@
   bBus: a
   writeTo: [buf]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0xB'
   jz: false
 
@@ -102,7 +102,7 @@
   bBus: b
   writeTo: [a]
   operation: aPlusB
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -111,14 +111,14 @@
   bBus: a
   writeTo: []
   operation: a
-  memoryAction: read
+  memoryAction: none
   next: '0xC'
   jz: false
 
 - description: 1 | LOAD SP, \#<value> (Load <value> into the SP register)
   address: '0xD'
   bBus: pc
-  writeTo: [pc, mar, mbr]
+  writeTo: [pc, mar]
   operation: bPlus1
   memoryAction: read
   next: '0xE'
@@ -129,7 +129,7 @@
   bBus: mbr
   writeTo: [sp]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -138,7 +138,7 @@
   bBus: sp
   writeTo: [mar]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x10'
   jz: false
 
@@ -147,7 +147,7 @@
   bBus: a
   writeTo: [mbr]
   operation: b
-  memoryAction: write
+  memoryAction: none
   next: '0x11'
   jz: false
 
@@ -165,7 +165,7 @@
   bBus: pc
   writeTo: [mar]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 
@@ -174,14 +174,14 @@
   bBus: sp
   writeTo: [sp, mar]
   operation: bMinus1
-  memoryAction: read
+  memoryAction: none
   next: '0x14'
   jz: false
 
 - description: 2 | POP A
   address: '0x14'
   bBus: pc
-  writeTo: [mar, mbr]
+  writeTo: [mar]
   operation: b
   memoryAction: read
   next: '0x15'
@@ -192,7 +192,7 @@
   bBus: mbr
   writeTo: [a]
   operation: b
-  memoryAction: read
+  memoryAction: none
   next: '0x0'
   jz: false
 

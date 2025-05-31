@@ -44,7 +44,8 @@ public class MicroAssembler {
         ALU_OPERATIONS.put("AMINUSB",0b0101);
         ALU_OPERATIONS.put("AANDB",  0b0110);
         ALU_OPERATIONS.put("AORB",   0b0111);
-        // 1000-1111 reserved
+        ALU_OPERATIONS.put("BMINUS1",   0b1000);
+        // 1001-1111 reserved
     }
 
     private static final int MAX_ADDRESS = 0x3F; // 6-bit address space (0-63)

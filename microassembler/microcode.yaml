@@ -115,5 +115,85 @@
   next: '0xC'
   jz: false
 
+- description: 1 | LOAD SP, \#<value> (Load <value> into the SP register)
+  address: '0xD'
+  bBus: pc
+  writeTo: [pc, mar, mbr]
+  operation: bPlus1
+  memoryAction: read
+  next: '0xE'
+  jz: false
+
+- description: 2 | LOAD SP, \#<value>
+  address: '0xE'
+  bBus: mbr
+  writeTo: [sp]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: 1 | PUSH A (Push value from A register to stack)
+  address: '0xF'
+  bBus: sp
+  writeTo: [mar]
+  operation: b
+  memoryAction: read
+  next: '0x10'
+  jz: false
+
+- description: 2 | PUSH A
+  address: '0x10'
+  bBus: a
+  writeTo: [mbr]
+  operation: b
+  memoryAction: write
+  next: '0x11'
+  jz: false
+
+- description: 3 | PUSH A
+  address: '0x11'
+  bBus: sp
+  writeTo: [sp]
+  operation: bPlus1
+  memoryAction: write
+  next: '0x12'
+  jz: false
+
+- description: 4 | PUSH A
+  address: '0x12'
+  bBus: pc
+  writeTo: [mar]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
+
+- description: 1 | POP A (Pop value from stack to A register)
+  address: '0x13'
+  bBus: sp
+  writeTo: [sp, mar]
+  operation: bMinus1
+  memoryAction: read
+  next: '0x14'
+  jz: false
+
+- description: 2 | POP A
+  address: '0x14'
+  bBus: pc
+  writeTo: [mar, mbr]
+  operation: b
+  memoryAction: read
+  next: '0x15'
+  jz: false
+
+- description: 3 | POP A
+  address: '0x15'
+  bBus: mbr
+  writeTo: [a]
+  operation: b
+  memoryAction: read
+  next: '0x0'
+  jz: false
 
 

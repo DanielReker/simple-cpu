@@ -234,7 +234,7 @@
   jz: false
 
 
-- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+- description: 1 | MOV [\#addr], A (Move value from register A to memory at address \#addr)
   address: '0x1A'
   bBus: pc
   writeTo: [pc]
@@ -243,7 +243,7 @@
   next: '0x1B'
   jz: false
 
-- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+- description: 2 | MOV [\#addr], A
   address: '0x1B'
   bBus: mbr
   writeTo: [mar]
@@ -252,7 +252,7 @@
   next: '0x1C'
   jz: false
 
-- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+- description: 3 | MOV [\#addr], A
   address: '0x1C'
   bBus: a
   writeTo: [mbr]
@@ -261,7 +261,7 @@
   next: '0x1D'
   jz: false
 
-- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+- description: 4 | MOV [\#addr], A
   address: '0x1D'
   bBus: pc
   writeTo: [mar]

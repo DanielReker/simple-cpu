@@ -34,7 +34,7 @@
   next: '0x0'
   jz: false
 
-- description: 1 | JMP <addr> (JMP to address <addr> in program memory)
+- description: 1 | JMP \#addr (JMP to address \#addr in program memory)
   address: '0x4'
   bBus: pc
   writeTo: [pc, mar]
@@ -43,7 +43,7 @@
   next: '0x5'
   jz: false
 
-- description: 2 | JMP <addr>
+- description: 2 | JMP \#addr
   address: '0x5'
   bBus: mbr
   writeTo: [pc, mar]
@@ -234,35 +234,74 @@
   jz: false
 
 
-- description: 1 | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+- description: 1 | JZ \#addr (jump to address \#addr in program memory if A = 0)
   address: '0x1A'
   bBus: pc
-  writeTo: [pc]
+  writeTo: [pc, mar]
   operation: bPlus1
   memoryAction: read
   next: '0x1B'
   jz: false
 
-- description: 2 | MOV [\#addr], A
+- description: 2 | JZ \#addr
   address: '0x1B'
+  bBus: a
+  writeTo: []
+  operation: b
+  memoryAction: none
+  next: '0x1C'
+  jz: true
+
+- description: 3 | JZ \#addr
+  address: '0x1C'
+  bBus: a
+  writeTo: []
+  operation: b
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+- description: 4 | JZ \#addr
+  address: '0x3C'
+  bBus: mbr
+  writeTo: [pc, mar]
+  operation: b
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+
+
+- description: 1 | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+  address: '0x20'
+  bBus: pc
+  writeTo: [pc]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x21'
+  jz: false
+
+- description: 2 | MOV [\#addr], A
+  address: '0x21'
   bBus: mbr
   writeTo: [mar]
   operation: b
   memoryAction: none
-  next: '0x1C'
+  next: '0x22'
   jz: false
 
 - description: 3 | MOV [\#addr], A
-  address: '0x1C'
+  address: '0x22'
   bBus: a
   writeTo: [mbr]
   operation: b
   memoryAction: none
-  next: '0x1D'
+  next: '0x23'
   jz: false
 
 - description: 4 | MOV [\#addr], A
-  address: '0x1D'
+  address: '0x23'
   bBus: pc
   writeTo: [mar]
   operation: b

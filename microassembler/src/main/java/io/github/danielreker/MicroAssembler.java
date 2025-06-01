@@ -110,7 +110,7 @@ public class MicroAssembler {
             instr.operation = (String) rawInstr.get("operation");
             instr.memoryAction = (String) rawInstr.get("memoryAction");
             instr.next = (String) rawInstr.get("next");
-            instr.jZ = rawInstr.containsKey("jZ") ? (Boolean) rawInstr.get("jZ") : false;
+            instr.jZ = rawInstr.containsKey("jz") ? (Boolean) rawInstr.get("jz") : false;
             instructions.add(instr);
         }
         return instructions;

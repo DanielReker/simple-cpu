@@ -79,7 +79,7 @@
   next: '0x0'
   jz: false
 
-- description: MOV B, A (Move register A int register B)
+- description: MOV B, A (Move register A into register B)
   address: '0x9'
   bBus: a
   writeTo: [b]
@@ -115,7 +115,7 @@
   next: '0xC'
   jz: false
 
-- description: 1 | LOAD SP, \#<value> (Load <value> into the SP register)
+- description: 1 | MOV SP, \#<value> (Load <value> into the SP register)
   address: '0xD'
   bBus: pc
   writeTo: [pc, mar]
@@ -124,7 +124,7 @@
   next: '0xE'
   jz: false
 
-- description: 2 | LOAD SP, \#<value>
+- description: 2 | MOV SP, \#<value>
   address: '0xE'
   bBus: mbr
   writeTo: [sp]
@@ -196,4 +196,77 @@
   next: '0x0'
   jz: false
 
+
+- description: 1 | MOV A, [\#addr] (Move value from memory at address \#addr to register A)
+  address: '0x16'
+  bBus: pc
+  writeTo: [pc]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x17'
+  jz: false
+
+- description: 2 | MOV A, [\#addr]
+  address: '0x17'
+  bBus: mbr
+  writeTo: [mar]
+  operation: b
+  memoryAction: none
+  next: '0x18'
+  jz: false
+
+- description: 3 | MOV A, [\#addr]
+  address: '0x18'
+  bBus: pc
+  writeTo: [mar]
+  operation: b
+  memoryAction: read
+  next: '0x19'
+  jz: false
+
+- description: 4 | MOV A, [\#addr]
+  address: '0x19'
+  bBus: mbr
+  writeTo: [a]
+  operation: b
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+  address: '0x1A'
+  bBus: pc
+  writeTo: [pc]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x1B'
+  jz: false
+
+- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+  address: '0x1B'
+  bBus: mbr
+  writeTo: [mar]
+  operation: b
+  memoryAction: none
+  next: '0x1C'
+  jz: false
+
+- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+  address: '0x1C'
+  bBus: a
+  writeTo: [mbr]
+  operation: b
+  memoryAction: none
+  next: '0x1D'
+  jz: false
+
+- description: x | MOV [\#addr], A (Move value from register A to memory at address \#addr)
+  address: '0x1D'
+  bBus: pc
+  writeTo: [mar]
+  operation: b
+  memoryAction: write
+  next: '0x0'
+  jz: false
 

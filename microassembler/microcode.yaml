@@ -7,6 +7,7 @@
   next: mbr
   jz: false
 
+
 - description: NOP
   address: '0x1'
   bBus: a
@@ -15,6 +16,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: INPUT (Load Input into A register)
   address: '0x2'
@@ -25,6 +27,7 @@
   next: '0x0'
   jz: false
 
+
 - description: OUTPUT (Move A register to Output register)
   address: '0x3'
   bBus: a
@@ -33,6 +36,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: 1 | JMP \#addr (JMP to address \#addr in program memory)
   address: '0x4'
@@ -52,7 +56,8 @@
   next: '0x0'
   jz: false
 
-- description: 1 | LOAD A, \#<value> (Load <value> into the A register)
+
+- description: 1 | MOV A, \#<value> (Move <value> into the A register)
   address: '0x6'
   bBus: pc
   writeTo: [pc, mar]
@@ -61,7 +66,7 @@
   next: '0x7'
   jz: false
 
-- description: 2 | LOAD A, \#<value>
+- description: 2 | MOV A, \#<value>
   address: '0x7'
   bBus: mbr
   writeTo: [a]
@@ -69,6 +74,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: INC A (Increment the value in register A by 1)
   address: '0x8'
@@ -79,6 +85,7 @@
   next: '0x0'
   jz: false
 
+
 - description: MOV B, A (Move register A into register B)
   address: '0x9'
   bBus: a
@@ -87,6 +94,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: 1 | ADD A, B (Add register A to register B and store result in register A)
   address: '0xA'
@@ -106,6 +114,7 @@
   next: '0x0'
   jz: false
 
+
 - description: HALT (Halt execution)
   address: '0xC'
   bBus: a
@@ -114,6 +123,7 @@
   memoryAction: none
   next: '0xC'
   jz: false
+
 
 - description: 1 | MOV SP, \#<value> (Load <value> into the SP register)
   address: '0xD'
@@ -132,6 +142,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: 1 | PUSH A (Push value from A register to stack)
   address: '0xF'
@@ -168,6 +179,7 @@
   memoryAction: none
   next: '0x0'
   jz: false
+
 
 - description: 1 | POP A (Pop value from stack to A register)
   address: '0x13'
@@ -309,3 +321,134 @@
   next: '0x0'
   jz: false
 
+
+- description: INC B (Increment the value in register B by 1)
+  address: '0x24'
+  bBus: b
+  writeTo: [b]
+  operation: bPlus1
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+- description: DEC A (Decrement the value in register A by 1)
+  address: '0x25'
+  bBus: a
+  writeTo: [a]
+  operation: bMinus1
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+- description: DEC B (Decrement the value in register B by 1)
+  address: '0x26'
+  bBus: b
+  writeTo: [b]
+  operation: bMinus1
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: 1 | ADD B, A (Add register B to register A and store result in register B)
+  address: '0x27'
+  bBus: b
+  writeTo: [buf]
+  operation: b
+  memoryAction: none
+  next: '0x28'
+  jz: false
+
+- description: 2 | ADD B, A
+  address: '0x28'
+  bBus: a
+  writeTo: [b]
+  operation: aPlusB
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: 1 | SUB A, B (Subtract register B from register A and store result in register A)
+  address: '0x29'
+  bBus: a
+  writeTo: [buf]
+  operation: b
+  memoryAction: none
+  next: '0x2A'
+  jz: false
+
+- description: 2 | SUB A, B
+  address: '0x2A'
+  bBus: b
+  writeTo: [a]
+  operation: aMinusB
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: 1 | SUB B, A (Subtract register A from register B and store result in register B)
+  address: '0x2B'
+  bBus: b
+  writeTo: [buf]
+  operation: b
+  memoryAction: none
+  next: '0x2C'
+  jz: false
+
+- description: 2 | SUB B, A
+  address: '0x2C'
+  bBus: a
+  writeTo: [b]
+  operation: aMinusB
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: 1 | SWAP A, B (Swap values in registers A and B)
+  address: '0x2D'
+  bBus: a
+  writeTo: [buf]
+  operation: b
+  memoryAction: none
+  next: '0x2E'
+  jz: false
+
+- description: 2 | SWAP A, B
+  address: '0x2E'
+  bBus: b
+  writeTo: [a]
+  operation: b
+  memoryAction: none
+  next: '0x2F'
+  jz: false
+
+- description: 3 | SWAP A, B
+  address: '0x2F'
+  bBus: a
+  writeTo: [b]
+  operation: a
+  memoryAction: none
+  next: '0x0'
+  jz: false
+
+
+- description: 1 | MOV B, \#<value> (Move <value> into the B register)
+  address: '0x30'
+  bBus: pc
+  writeTo: [pc, mar]
+  operation: bPlus1
+  memoryAction: read
+  next: '0x31'
+  jz: false
+
+- description: 2 | MOV B, \#<value>
+  address: '0x31'
+  bBus: mbr
+  writeTo: [b]
+  operation: b
+  memoryAction: none
+  next: '0x0'
+  jz: false
